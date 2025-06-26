@@ -6,12 +6,6 @@
             </div>
 
             <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
-                                
-                <nz-form-item>
-                    <nz-form-control nzHasFeedback nzErrorTip="The input is not valid Name!">
-                        <input nz-input placeholder="Name"  formControlName="name" />
-                    </nz-form-control>
-                </nz-form-item>
                 
                 <nz-form-item>
                     <nz-form-control nzHasFeedback nzErrorTip="The input is not valid E-mail!">
@@ -25,6 +19,13 @@
 
                         <input nz-input placeholder="Password" type="password" formControlName="password" />
 
+                    </nz-form-control>
+                </nz-form-item>
+
+                                                
+                <nz-form-item>
+                    <nz-form-control nzHasFeedback nzErrorTip="The input is not valid Name!">
+                        <input nz-input placeholder="Name"  formControlName="name" />
                     </nz-form-control>
                 </nz-form-item>
 

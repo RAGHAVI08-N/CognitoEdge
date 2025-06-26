@@ -31,15 +31,20 @@ export class SignupComponent implements OnInit {
   }
 
   submitForm() {
-    this.authService.register(this.validateForm.value).subscribe(
-      res => {
-        this.message.success('Signup successful', { nzDuration: 5000 });
-        this.router.navigateByUrl('/login');
-      },
-      error => {
-        const errorMessage = error?.error || 'User already exists or signup failed';
-        this.message.error(errorMessage, { nzDuration: 5000 });
+  this.authService.register(this.validateForm.value).subscribe(
+    (res: any) => {
+      alert('User registered successfully');
+      this.validateForm.reset(); // 🔁 Reset the form
+      this.router.navigateByUrl('/login'); // Or comment if you don’t want auto navigate
+    },
+    (error: any) => {
+      if (error.status === 406) {
+        alert('User already exists'); //  Email already used
+      } else {
+        alert('Signup failed. Please try again later.');
       }
-    );
-  }
+    }
+  );
+}
+
 }

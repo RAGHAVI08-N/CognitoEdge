@@ -10,6 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SignupComponent } from './Modules/auth/signup/signup.component';
 import { LoginComponent } from './Modules/auth/login/login.component';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+
 
 registerLocaleData(en);
 
@@ -20,6 +22,7 @@ registerLocaleData(en);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    NzMessageModule,
     
   ],
   providers: [

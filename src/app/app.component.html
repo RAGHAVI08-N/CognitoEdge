@@ -1,13 +1,45 @@
-<nz-header class="main-header" nz-row nzType="flex" style="background-color: #f56a20;">
-<div>
-<a style="color: white; margin-left: 40px; font-size: 20px; font-weight: bolder; font-family: 'Georgia', 'Times New Roman', serif;"
-routerLink="/login">COGNITO EDGE</a>
+<div *ngIf="!isUserLoggedIn && !isAdminLoggedIn">
+  <nz-header class="main-header" nz-row nzType="flex" style="background-color: #f56a20;">
+    <div>
+      <a style="color: white; margin-left: 40px; font-size: 20px; font-weight: bolder; font-family: 'Georgia', 'Times New Roman', serif;"
+      routerLink="/login">COGNITO EDGE</a>
+    </div>
+    <div class="nav-links">
+      <a nz-button nzType="link" routerLink="/register" routerLinkActive="active">Sign Up</a>
+      <a nz-button nzType="link" routerLink="/login" routerLinkActive="active">Login</a>
+    </div>
+  </nz-header>
 </div>
-<div class="nav-links">
-<a nz-button nzType="link" routerLink="/register" routerLinkActive="active">Sign Up</a>
-<a nz-button nzType="link" routerLink="/login" routerLinkActive="active">Login</a>
-  </div>
-</nz-header>
 
+
+<div *ngIf="isAdminLoggedIn">
+  <nz-header class="main-header" nz-row nzType="flex" style="background-color: #f56a20;">
+    <div>
+      <a style="color: white; margin-left: 40px; font-size: 20px; font-weight: bolder; font-family: 'Georgia', 'Times New Roman', serif;"
+      routerLink="/admin/dashboard">COGNITO EDGE</a>
+    </div>
+    <div class="nav-links">
+      <a nz-button nzType="link" routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+      <a nz-button nzType="link" routerLink="/admin/create-test" routerLinkActive="active">Create Test</a>
+      <a nz-button nzType="link" routerLink="/admin/View-results" routerLinkActive="active">View Results</a>
+      <a nz-button nzType="link" (click)="logout()">Logout</a>
+    </div>
+  </nz-header>
+</div>
+
+
+<div *ngIf="isUserLoggedIn">
+  <nz-header class="main-header" nz-row nzType="flex" style="background-color: #f56a20;">
+    <div>
+      <a style="color: white; margin-left: 40px; font-size: 20px; font-weight: bolder; font-family: 'Georgia', 'Times New Roman', serif;"
+      routerLink="/user/dashboard">COGNITO EDGE</a>
+    </div>
+    <div class="nav-links">
+      <a nz-button nzType="link" routerLink="/user/dashboard" routerLinkActive="active">Dashboard</a>
+      <a nz-button nzType="link" routerLink="/user/View-results" routerLinkActive="active">View Results</a>
+      <a nz-button nzType="link" (click)="logout()">Logout</a>
+    </div>
+  </nz-header>
+</div>
 
 <router-outlet></router-outlet>

@@ -3,10 +3,12 @@ import { AppComponent } from './app/app.component';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations'; // ✅ Add this
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(routes) ,
-    provideHttpClient()
+    provideRouter(routes),
+    provideHttpClient(),
+    provideAnimations() // ✅ Enable Angular animations globally
   ]
 }).catch(err => console.error(err));
