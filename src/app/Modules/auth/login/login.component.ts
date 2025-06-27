@@ -54,6 +54,11 @@ export class LoginComponent implements OnInit {
           role: res.role
         };
         UserStorageService.saveUser(user);
+        if(UserStorageService.isAdminLoggedIn()){
+          this.router.navigateByUrl('admin/dashboard')
+        } else if(UserStorageService.isUserLoggedIn()){
+          this.router.navigateByUrl('user/dashboard')
+        }
       },
       error => {
         console.log('Error response:', error);
