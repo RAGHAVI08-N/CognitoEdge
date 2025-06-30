@@ -1,0 +1,50 @@
+body{
+    background-color: #f4e5d8;
+}
+
+.child {
+    padding: 50px;
+    justify-content: center;
+    width: 60%;
+    margin: auto;
+    background-color: white;
+    box-shadow: 1px 1px 15px -7px rgba(0, 0, 0, 1.0);
+    border-radius: 5px;
+}
+
+nz-form-control {
+    min-width: 280px;
+}
+
+.parent {
+  background-color: #f9f4ef;
+  min-height: 100vh;
+  padding-top: 40px;
+}
+
+
+.login-form-button {
+    width: 30%;
+    float: right;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+button{
+    background-color: #f56a20;
+    border: none;
+    font-size: auto;
+    font-weight: 500;
+    border-radius: 20px;
+}
+
+nz-divider{
+    padding-bottom: 10px;
+}
+
+.preview{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}

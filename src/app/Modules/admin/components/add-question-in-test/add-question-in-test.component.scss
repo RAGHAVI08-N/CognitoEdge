@@ -1,0 +1,65 @@
+body, .parent{
+    background-color: #f9f4ef;
+}
+
+.child {
+  padding: 40px;
+  width: 80%;
+  margin: auto;
+  background-color: #f9f4ef; 
+  
+}
+
+
+.login-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 30px;
+}
+
+nz-form-label:nth-of-type(1),
+nz-form-item:nth-of-type(1),
+nz-form-label:nth-of-type(6),
+nz-form-item:nth-of-type(6) {
+  grid-column: span 2;
+}
+
+/* Label styling */
+nz-form-label {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* Input box styling */
+input[nz-input] {
+  height: 45px;
+  font-size: 16px;
+  padding: 8px;
+  border-radius: 15px;
+}
+
+/* Align submit button to right */
+.login-form-button {
+  grid-column: span 2;
+  justify-self: end;
+  width: 140px;
+  height: 40px;
+  background-color: #e65c1e !important;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Minor tweaks */
+nz-form-item {
+  margin-bottom: 0;
+}
+
+button {
+  color: white;
+}
+
+nz-form-control {
+  min-width: 100%;
+}

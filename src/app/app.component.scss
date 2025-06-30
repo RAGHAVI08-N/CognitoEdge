@@ -10,7 +10,7 @@ $White: #ffffff;
     justify-content: space-between;
     padding: 0px 57px;
     background-color: $primary-color;
-    height: auto;
+    height: 80px;
 
     a.active {
         background: $secondary-color;
@@ -18,9 +18,10 @@ $White: #ffffff;
 
     a{
         font-weight: 300;
-        font-size: 15px;
+        font-size: 17px;
         border-radius: 0px;
         color: $White;
+        font-weight: 460;
     }
     a.ant-btn{
         &:hover{
