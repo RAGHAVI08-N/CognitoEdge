@@ -1,14 +1,14 @@
 <div class="main">
-  <div class="scroll-wrapper">
-    <div *ngFor="let test of tests">
-      <nz-card class="test-card" [nzBordered]="false">
-        <div class="time">⏱ {{ getFormattedTime(test.time) }}</div>
-        <h3 class="title">{{ test.title }}</h3>
-        <p class="desc">{{ test.description }}</p>
-        <div class="btn-group">
-          <button nz-button nzType="default" class="btn-outline">Start Test</button>
-        </div>
-      </nz-card>
+  <div nz-row>
+    <div nz-col nzSpan="24" style="margin-bottom: 20px;">
+      <span style="margin: 20px;" *ngFor="let test of tests">
+        <nz-card [nzBordered]="true" class="test" nzTitle="{{test.title}}">
+          <p><strong>Time:</strong> {{getFormattedTime(test.time)}}</p>
+          <p><strong>Description:</strong>{{test.description}}</p>
+
+          <button nz-button nzType="primary" routerLink="/user/take-test/{{test.id}}">Start Test</button>
+        </nz-card>
+      </span>
     </div>
   </div>
 </div>

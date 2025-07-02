@@ -15,11 +15,11 @@ export class ViewTestComponent {
   questions: any[] = [];
   testId:any;
   constructor (private adminService: AdminService,
-    private activateRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute
   ){}
 
   ngOnInit(){
-    this.activateRoute.paramMap.subscribe(params =>{
+    this.activatedRoute.paramMap.subscribe(params =>{
       this.testId = +params.get('id');
 
       this.adminService.getTestQuestions(this.testId).subscribe(res=>{
