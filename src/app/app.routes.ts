@@ -3,6 +3,7 @@ import { SignupComponent } from './Modules/auth/signup/signup.component';
 import { LoginComponent } from './Modules/auth/login/login.component';
 
 export const routes: Routes = [
+{ path: '', redirectTo: 'login', pathMatch: 'full' },
 { path: 'register', component: SignupComponent },
 { path: 'login', component: LoginComponent },
 {path: 'user', loadChildren: ()=> import('./Modules/user/user.module').then(m=>m.UserModule)},
