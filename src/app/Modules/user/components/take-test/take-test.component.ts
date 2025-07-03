@@ -85,12 +85,12 @@ export class TakeTestComponent {
         `Test Submitted Successfully`,
         { nzDuration: 5000 }
       );
-      this.router.navigateByUrl("/user/view-test-results");
+    this.router.navigate(['/user/view-test-results']);
+
     }, error=>{
       this.message
-      .error(
-        `${error.error}`,
-        { nzDuration: 5000 }
+      .error(error.error?.message || 'Test submission failed', { nzDuration: 5000 }
+
       )
     })
   }
