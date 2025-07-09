@@ -2,12 +2,22 @@
   <div class="scroll-wrapper">
     <div *ngFor="let test of tests">
       <nz-card class="test-card" [nzBordered]="false">
-        <div class="time">⏱ {{ getFormattedTime(test.time) }}</div>
-        <h3 class="title">{{ test.title }}</h3>
-        <p class="desc">{{ test.description }}</p>
-        <div class="btn-group">
-          <button nz-button nzType="default" class="btn-outline" [routerLink]="'/admin/add-question/' + test.id">+ Add Question</button>
-          <button nz-button nzType="default" class="btn-outline" routerLink="/admin/view-test/{{test.id}}">👁 View Test</button>
+        <div class="card-content">
+          <div class="card-header">
+            <div class="time">⏱ {{ getFormattedTime(test.time) }}</div>
+            <h3 class="title">{{ test.title }}</h3>
+          </div>
+
+          <div class="desc">{{ test.description }}</div>
+
+          <div class="btn-group">
+            <button nz-button class="btn-outline" [routerLink]="'/admin/add-question/' + test.id">
+              ➕ Add Question
+            </button>
+            <button nz-button class="btn-outline" [routerLink]="'/admin/view-test/' + test.id">
+              👁 View Test
+            </button>
+          </div>
         </div>
       </nz-card>
     </div>

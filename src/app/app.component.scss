@@ -1,38 +1,51 @@
-$secondary-color: #a34411;
-$primary-color: #f48023;
-$White: #ffffff;
+$charcoal: #2c2c2c;
+$teal: #008080;
+$light-beige: #f4f1ec;
+$white: #ffffff;
+$hover-teal-light: #d9f0f0;
+
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 50px;
+  background-color: #2c2c2c; // charcoal
 
 
+  height: 80px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
-.main-header{
+  .brand {
+    font-size: 22px;
+    font-weight: 600;
+    color: $white;
+    text-decoration: none;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .nav-links {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 57px;
-    background-color: $primary-color;
-    height: 80px;
+    gap: 25px;
 
-    a.active {
-        background: $secondary-color;
-    }
+    a {
+      font-size: 16px;
+      font-weight: 500;
+      color: $white;
+      background: transparent;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, color 0.3s ease;
 
-    a{
-        font-weight: 300;
-        font-size: 17px;
-        border-radius: 0px;
-        color: $White;
-        font-weight: 460;
+      &.active {
+        background-color: $teal;
+        color: $white;
+      }
+
+      &.ant-btn:hover {
+        background-color: $hover-teal-light;
+        color: $teal;
+      }
     }
-    a.ant-btn{
-        &:hover{
-            color: $White;
-            background: $secondary-color;
-        }
-    }
-    img{
-        width: 180px;
-    }
-    .img_profile{
-        width: 25px;
-    }
+  }
 }

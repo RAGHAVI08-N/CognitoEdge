@@ -1,0 +1,44 @@
+.table-container {
+  padding: 40px 30px;
+  background-color: #f4f1ec;
+  display: flex;
+  justify-content: center;
+}
+@media (max-width: 768px) {
+  ::ng-deep .ant-table {
+    font-size: 13px;
+  }
+}
+
+::ng-deep .ant-table {
+  width: 1300px; // wider max
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+::ng-deep .ant-table-thead > tr > th {
+ background-color: #3a3a3a;
+ // darker teal
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+}
+
+
+::ng-deep .ant-table-tbody > tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+::ng-deep .ant-table-tbody > tr:hover {
+  background-color: rgba(0, 128, 128, 0.1);
+  transition: 0.2s ease-in-out;
+}
+
+::ng-deep .ant-table-tbody > tr > td {
+  text-align: center;
+  font-size: 14px;
+  padding: 12px;
+  color: #2c2c2c;
+}

@@ -1,75 +1,104 @@
 .main {
   padding: 60px 30px;
-  background-color: #f9f4ef;
+  background-color: #f4f1ec;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  
 }
 
 .scroll-wrapper {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 30px;
-  overflow-x: auto;
   justify-content: center;
   width: 100%;
-  padding-bottom: 20px;
+}
+
+.test-wrapper {
+  flex: 1 1 320px;
+  max-width: 350px;
 }
 
 .test-card {
-  flex: 0 0 350px;  /* wider cards */
-  min-height: 360px;  /* taller cards */
-  background: white;
+  flex: 0 0 350px;
+  height: 350px;
+  width: 600px;
+  background: linear-gradient(135deg, #ffffff, #f9f9f9); // ⬅️ subtle gradient
+  border-top: 5px solid #008080; // ⬅️ colored accent
   border-radius: 20px;
   padding: 30px 20px;
-  box-shadow:  5px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
   text-align: center;
-  scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.2);
+  }
 }
 
-.time {
-  font-size: 15px;
-  color: #8c8c8c;
-  margin-bottom: 10px;
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .icon {
+    font-size: 22px;
+  }
+
+  .time {
+    font-size: 13px;
+    color: #777;
+    font-style: italic;
+  }
 }
 
-.title {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  margin: 10px 0;
-  
-}
+.card-content {
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e1e1e;
+    margin: 10px 0;
+  }
 
 .desc {
   font-size: 15px;
   color: #666;
   margin: 10px 0 30px;
-  min-height: 45px;
+  min-height: 60px; // ✅ Reserve space for short/missing descriptions
 }
 
-.btn-group {
+}
+
+.card-footer {
   display: flex;
-  justify-content: center;
-  gap: 12px;
+  justify-content: space-between;
+  margin-top: 20px;
 
   .btn-outline {
-    border-radius: 20px;
-    border: 1px solid #e25c27;
-    color: #e25c27;
-    background-color: #fff;
+    border-radius: 18px;
+    border: 1.8px solid #008080;
+    color: #008080;
+    background-color: #ffffff;
+    padding: 6px 16px;
     font-weight: 500;
-    padding: 4px 16px;
+    font-size: 14px;
+    transition: all 0.25s ease;
 
     &:hover {
-      background-color: #ffece6;
-      color: #c44c1f;
-      border-color: #c44c1f;
+      background-color: rgba(0, 128, 128, 0.08);
+      color: #005e5e;
+      border-color: #005e5e;
+    }
+
+    &:active {
+      transform: scale(0.96);
     }
   }
 }

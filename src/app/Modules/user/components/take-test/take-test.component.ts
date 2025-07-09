@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharedModule } from 'src/app/Modules/shared/shared.module';
 import { TestService } from '../../services/test.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,86 +12,84 @@ import { UserStorageService } from 'src/app/Modules/auth/services/user-storage.s
   templateUrl: './take-test.component.html',
   styleUrls: ['./take-test.component.scss']
 })
-export class TakeTestComponent {
+export class TakeTestComponent implements OnInit {
 
-  questions: any[] =[];
-  testId:any;
+  questions: any[] = [];
+  testId: any;
 
-  selectedAnswers: {[key:number]: string} = {};
+  selectedAnswers: { [key: number]: string } = {};
 
   timeRemaining: number = 0;
   interval: any;
 
+  isSubmitted: boolean = false; // ✅ Needed for the guard
 
-  constructor(private testService: TestService,
+  constructor(
+    private testService: TestService,
     private activatedRoute: ActivatedRoute,
     private message: NzMessageService,
     private router: Router
-  ){}
+  ) {}
 
-   ngOnInit(){
-    this.activatedRoute.paramMap.subscribe(params =>{
+  ngOnInit() {
+    this.activatedRoute.paramMap.subscribe(params => {
       this.testId = +params.get('id');
 
-      this.testService.getTestQuestions(this.testId).subscribe(res=>{
+      this.testService.getTestQuestions(this.testId).subscribe(res => {
         this.questions = res.questions;
         console.log(this.questions);
 
         this.timeRemaining = res.testDTO.time || 0;
         this.startTimer();
-      })
-    })
+      });
+    });
   }
 
-  startTimer(){
-    this.interval = setInterval(()=>{
-      if(this.timeRemaining > 0){
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.timeRemaining > 0) {
         this.timeRemaining--;
-      }else{
+      } else {
         clearInterval(this.interval);
         this.submitAnswers();
       }
     }, 1000);
   }
 
-  getFormattedTime(): string{
-    const minutes = Math.floor(this.timeRemaining  / 60);
+  getFormattedTime(): string {
+    const minutes = Math.floor(this.timeRemaining / 60);
     const seconds = this.timeRemaining % 60;
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`; 
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
 
-  onAnswerChange(questionId:number, selectedOption:string){
+  onAnswerChange(questionId: number, selectedOption: string) {
     this.selectedAnswers[questionId] = selectedOption;
     console.log(this.selectedAnswers);
   }
 
-  submitAnswers(){
-    const answerList = Object.keys(this.selectedAnswers).map(questionId =>{
-      return{
-        questionId: +questionId,
-        selectedOption: this.selectedAnswers[questionId]
-      }
-    })
+  submitAnswers() {
+    const answerList = Object.keys(this.selectedAnswers).map(questionId => ({
+      questionId: +questionId,
+      selectedOption: this.selectedAnswers[questionId]
+    }));
 
     const data = {
       testId: this.testId,
       userId: UserStorageService.getUserId(),
       responses: answerList
-    }
+    };
 
-    this.testService.submitTest(data).subscribe(res=>{
-      this.message
-      .success(
-        `Test Submitted Successfully`,
-        { nzDuration: 5000 }
-      );
-    this.router.navigate(['/user/view-test-results']);
-
-    }, error=>{
-      this.message
-      .error(error.error?.message || 'Test submission failed', { nzDuration: 5000 }
-
-      )
-    })
+    this.testService.submitTest(data).subscribe(
+      res => {
+        this.isSubmitted = true; // ✅ Mark as submitted
+        this.message.success(`Test Submitted Successfully`, { nzDuration: 5000 });
+        this.router.navigate(['/user/view-test-results']);
+      },
+      error => {
+        this.message.error(error.error?.message || 'Test submission failed', {
+          nzDuration: 5000
+        });
+      }
+    );
   }
 }

@@ -1,20 +1,26 @@
-body, .parent{
-    background-color: #f9f4ef;
+body, .parent {
+   background: linear-gradient(to right, #f4f1ec 50%, rgba(58, 167, 158, 0.1) 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 40px 0;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .child {
-  padding: 40px;
-  width: 80%;
+  width: 70%;
   margin: auto;
-  background-color: #f9f4ef; 
-  
+  background: rgba(255, 255, 255, 0.3); /* soft white */
+  backdrop-filter: blur(10px); /* glass effect */
+  padding: 50px 40px;
+  border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(58, 167, 158, 0.3);
 }
-
 
 .login-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px 30px;
+  gap: 25px 40px;
 }
 
 nz-form-label:nth-of-type(1),
@@ -24,40 +30,54 @@ nz-form-item:nth-of-type(6) {
   grid-column: span 2;
 }
 
-/* Label styling */
+/* Labels */
 nz-form-label {
-  font-weight: bold;
+  font-weight: 600;
   font-size: 15px;
+  color: #333;
 }
 
-/* Input box styling */
+/* Input Fields */
 input[nz-input] {
   height: 45px;
   font-size: 16px;
-  padding: 8px;
-  border-radius: 15px;
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: 1px solid #2c2c2c;
+  transition: border 0.3s ease;
+
+  &:focus {
+    border-color: #008080;
+    outline: none;
+  }
 }
 
-/* Align submit button to right */
+/* Button */
 .login-form-button {
   grid-column: span 2;
   justify-self: end;
   width: 140px;
-  height: 40px;
-  background-color: #e65c1e !important;
+  height: 42px;
+  background-color: #008080 !important;
   border: none;
   border-radius: 20px;
-  font-weight: bold;
-  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+  font-size: 15px;
+  color: white;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+
+  &:hover {
+    background-color: #006666 !important;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
 }
 
-/* Minor tweaks */
 nz-form-item {
   margin-bottom: 0;
-}
-
-button {
-  color: white;
 }
 
 nz-form-control {
