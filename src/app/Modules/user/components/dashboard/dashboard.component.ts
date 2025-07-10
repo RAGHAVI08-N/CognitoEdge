@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedModule } from 'src/app/Modules/shared/shared.module';
 import { TestService } from '../../services/test.service';
+import { UserStorageService } from 'src/app/Modules/auth/services/user-storage.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,31 +14,45 @@ import { TestService } from '../../services/test.service';
 export class DashboardComponent {
 
   tests = [];
-  constructor(private notification: NzNotificationService,
+  attemptedTestIds: number[] = [];
+
+  constructor(
+    private notification: NzNotificationService,
     private testService: TestService
-  ){}
+  ) {}
 
-   ngOnInit(){
+  ngOnInit() {
     this.getAllTests();
+    this.fetchAttemptedTests();
   }
 
-  getAllTests(){
-    this.testService.getAllTest().subscribe(res=>{
+  getAllTests() {
+    this.testService.getAllTest().subscribe(res => {
       this.tests = res;
-    }, error=>{
-      this.notification
-      .error(
-        'ERROR',
-        `Something Went Wrong. Try Again`,
-        { nzDuration: 5000 }
-      )
-    })
+    }, error => {
+      this.notification.error('ERROR', `Something Went Wrong. Try Again`, { nzDuration: 5000 });
+    });
   }
 
-  getFormattedTime(time): string{
-    const minutes = Math.floor(time/60);
+  fetchAttemptedTests() {
+    const userId = Number(UserStorageService.getUserId());
+    this.testService.getAttemptedTestIds(userId).subscribe(
+      (attemptedIds: number[]) => {
+        this.attemptedTestIds = attemptedIds;
+      },
+      error => {
+        console.error('Failed to fetch attempted test IDs', error);
+      }
+    );
+  }
+
+  getFormattedTime(time: number): string {
+    const minutes = Math.floor(time / 60);
     const seconds = time % 60;
     return `${minutes} minutes ${seconds} seconds`;
   }
- 
+
+  hasAttempted(testId: number): boolean {
+    return this.attemptedTestIds.includes(testId);
+  }
 }

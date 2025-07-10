@@ -68,28 +68,34 @@ export class TakeTestComponent implements OnInit {
   }
 
   submitAnswers() {
-    const answerList = Object.keys(this.selectedAnswers).map(questionId => ({
-      questionId: +questionId,
-      selectedOption: this.selectedAnswers[questionId]
-    }));
+  const answerList = Object.keys(this.selectedAnswers).map(questionId => ({
+    questionId: +questionId,
+    selectedOption: this.selectedAnswers[questionId]
+  }));
 
-    const data = {
-      testId: this.testId,
-      userId: UserStorageService.getUserId(),
-      responses: answerList
-    };
+  const data = {
+    testId: this.testId,
+    userId: UserStorageService.getUserId(),
+    responses: answerList
+  };
 
-    this.testService.submitTest(data).subscribe(
-      res => {
-        this.isSubmitted = true; // ✅ Mark as submitted
-        this.message.success(`Test Submitted Successfully`, { nzDuration: 5000 });
+  this.testService.submitTest(data).subscribe(
+    res => {
+      this.isSubmitted = true;
+      this.message.success(`Test Submitted Successfully`, { nzDuration: 5000 });
+      this.router.navigate(['/user/view-test-results']);
+    },
+    error => {
+      if (error.status === 409) {
+        this.message.warning('You have already attempted this test!', { nzDuration: 5000 });
         this.router.navigate(['/user/view-test-results']);
-      },
-      error => {
+      } else {
         this.message.error(error.error?.message || 'Test submission failed', {
           nzDuration: 5000
         });
       }
-    );
-  }
+    }
+  );
+}
+
 }

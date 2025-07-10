@@ -4,8 +4,13 @@
       <div class="title">{{ test.title }}</div>
       <div class="time"><strong>Time:</strong> {{ getFormattedTime(test.time) }}</div>
       <div class="desc"><strong>Description:</strong> {{ test.description }}</div>
-      <button nz-button nzType="primary" [routerLink]="'/user/take-test/' + test.id">
-        Start Test
+
+      <button 
+        nz-button 
+        nzType="primary" 
+        [routerLink]="'/user/take-test/' + test.id" 
+        [disabled]="hasAttempted(test.id)">
+        {{ hasAttempted(test.id) ? 'Already Attempted' : 'Start Test' }}
       </button>
     </div>
   </div>
