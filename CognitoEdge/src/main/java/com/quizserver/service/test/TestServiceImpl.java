@@ -63,8 +63,8 @@ public class TestServiceImpl implements TestService {
     }
     public List<TestDTO> getAllTests(){
         return testRepository.findAll().stream().peek(
-                test-> test.setTime(test.getQuestions().size()* test.getTime())).collect(Collectors.toList())
-        .stream().map(Test::getDto).collect(Collectors.toList());
+                        test-> test.setTime(test.getQuestions().size()* test.getTime())).collect(Collectors.toList())
+                .stream().map(Test::getDto).collect(Collectors.toList());
     }
 
 
@@ -82,23 +82,31 @@ public class TestServiceImpl implements TestService {
         return testDetailsDTO;
     }
 
-    public TestResultDTO submitTest(SubmitTestDTO request){
-        Test test = testRepository.findById(request.getTestId()).orElseThrow(()->new EntityNotFoundException("Test not found"));
+    public TestResultDTO submitTest(SubmitTestDTO request) {
+        Test test = testRepository.findById(request.getTestId())
+                .orElseThrow(() -> new EntityNotFoundException("Test not found"));
 
-        User user = userRepository.findById(request.getUserId()).orElseThrow(()->new EntityNotFoundException("User not found"));
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        int correctAnswers=0;
-        for(QuestionResponse response: request.getResponses()){
+        // ✅ Prevent duplicate submission
+        if (testResultRepository.existsByUserIdAndTestId(user.getId(), test.getId())) {
+            throw new IllegalStateException("You have already taken this test.");
+        }
+
+        int correctAnswers = 0;
+        for (QuestionResponse response : request.getResponses()) {
             Question question = questionRepository.findById(response.getQuestionId())
                     .orElseThrow(() -> new EntityNotFoundException("Question not found"));
-            if(question.getCorrectOption().equals(response.getSelectedOption())){
+            if (question.getCorrectOption().equals(response.getSelectedOption())) {
                 correctAnswers++;
             }
         }
-        int totalQuestions = test.getQuestions().size();
-        double percentage = ((double) correctAnswers/totalQuestions)* 100;
 
-        TestResult testResult=new TestResult();
+        int totalQuestions = test.getQuestions().size();
+        double percentage = ((double) correctAnswers / totalQuestions) * 100;
+
+        TestResult testResult = new TestResult();
         testResult.setTest(test);
         testResult.setUser(user);
         testResult.setTotalQuestions(totalQuestions);
@@ -108,6 +116,7 @@ public class TestServiceImpl implements TestService {
         return testResultRepository.save(testResult).getDto();
     }
 
+
     public List<TestResultDTO> getAllTestResults(){
         return testResultRepository.findAll().stream().map(TestResult::getDto).collect(Collectors.toList());
     }
@@ -115,5 +124,15 @@ public class TestServiceImpl implements TestService {
     public List<TestResultDTO> getAllTestResultsOfUser(Long userId){
         return testResultRepository.findAllByUserId(userId).stream().map(TestResult::getDto).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Long> getAttemptedTestIdsByUser(Long userId) {
+        List<TestResult> results = testResultRepository.findByUserId(userId);
+        return results.stream()
+                .map(result -> result.getTest().getId())
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
 
 }

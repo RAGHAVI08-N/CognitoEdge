@@ -52,13 +52,17 @@ public class TestController {
     }
 
     @PostMapping("/submit-test")
-    public ResponseEntity<?> submitTest(@RequestBody SubmitTestDTO dto){
-        try{
+    public ResponseEntity<?> submitTest(@RequestBody SubmitTestDTO dto) {
+        try {
             return new ResponseEntity<>(testService.submitTest(dto), HttpStatus.OK);
-        } catch (Exception e){
+        } catch (IllegalStateException e) {
+            // ✅ Add this block to handle duplicate test submissions
+            return new ResponseEntity<>("You have already attempted this test.", HttpStatus.CONFLICT);
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
     @GetMapping("/test-result")
     public ResponseEntity<?> getAllTestResults(){
         try{
@@ -76,4 +80,14 @@ public class TestController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("/attempted-tests/{userId}")
+    public ResponseEntity<?> getAttemptedTests(@PathVariable Long userId) {
+        try {
+            return new ResponseEntity<>(testService.getAttemptedTestIdsByUser(userId), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 }

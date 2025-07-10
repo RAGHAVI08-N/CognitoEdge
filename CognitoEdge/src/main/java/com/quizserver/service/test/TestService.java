@@ -14,4 +14,6 @@ public interface TestService {
     TestResultDTO submitTest(SubmitTestDTO request);
     List<TestResultDTO> getAllTestResults();
     List<TestResultDTO> getAllTestResultsOfUser(Long userId);
+    List<Long> getAttemptedTestIdsByUser(Long userId);
+
 }
