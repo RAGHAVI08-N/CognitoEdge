@@ -95,7 +95,6 @@ textarea[nz-input]:focus {
   transform: scale(0.97);
 }
 
-// Styling for Department Dropdown (nz-select)
 ::ng-deep nz-select {
   width: 100%;
 
@@ -106,6 +105,10 @@ textarea[nz-input]:focus {
     font-size: 15px !important;
     background-color: #fdfdfd !important;
     transition: all 0.3s ease;
+
+    // ✅ Add this to fix label display
+    display: flex !important;
+    align-items: center !important;
   }
 
   &.ant-select-focused .ant-select-selector {
@@ -114,4 +117,3 @@ textarea[nz-input]:focus {
     background-color: #ffffff !important;
   }
 }
-
