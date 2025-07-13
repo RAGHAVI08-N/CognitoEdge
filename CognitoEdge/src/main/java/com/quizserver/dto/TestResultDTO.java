@@ -14,4 +14,6 @@ public class TestResultDTO {
 
     private String testName;
     private String userName;
+    private String departmentName;
+
 }

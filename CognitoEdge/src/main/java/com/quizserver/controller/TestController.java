@@ -89,5 +89,16 @@ public class TestController {
         }
     }
 
+    @GetMapping("/department-tests/{userId}")
+    public ResponseEntity<?> getTestsByDepartment(@PathVariable Long userId) {
+        try {
+            return new ResponseEntity<>(testService.getTestsForUser(userId), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
 
 }

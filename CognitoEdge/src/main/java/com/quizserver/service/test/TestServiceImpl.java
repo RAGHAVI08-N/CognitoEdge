@@ -1,14 +1,8 @@
 package com.quizserver.service.test;
 
 import com.quizserver.dto.*;
-import com.quizserver.entities.Question;
-import com.quizserver.entities.Test;
-import com.quizserver.entities.TestResult;
-import com.quizserver.entities.User;
-import com.quizserver.repository.QuestionRepository;
-import com.quizserver.repository.TestRepository;
-import com.quizserver.repository.TestResultRepository;
-import com.quizserver.repository.UserRepository;
+import com.quizserver.entities.*;
+import com.quizserver.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +17,6 @@ public class TestServiceImpl implements TestService {
     @Autowired
     private TestRepository testRepository;
 
-
     @Autowired
     private QuestionRepository questionRepository;
 
@@ -33,20 +26,27 @@ public class TestServiceImpl implements TestService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
-    public TestDTO createTest(TestDTO dto){
+    // ✅ Create Test with Department
+    public TestDTO createTest(TestDTO dto) {
         Test test = new Test();
         test.setTitle(dto.getTitle());
         test.setDescription(dto.getDescription());
         test.setTime(dto.getTime());
 
+        Department department = departmentRepository.findById(dto.getDepartmentId()) // ← here
+                .orElseThrow(() -> new EntityNotFoundException("Department not found"));
+        test.setDepartment(department);
+
         return testRepository.save(test).getDto();
     }
 
-    public QuestionDTO addQuestionInTest(QuestionDTO dto){
-        Optional<Test> optionalTest=testRepository.findById(dto.getId());
-        if(optionalTest.isPresent()){
-            Question question=new Question();
+    public QuestionDTO addQuestionInTest(QuestionDTO dto) {
+        Optional<Test> optionalTest = testRepository.findById(dto.getId());
+        if (optionalTest.isPresent()) {
+            Question question = new Question();
             question.setTest(optionalTest.get());
             question.setQuestionText(dto.getQuestionText());
             question.setOptionA(dto.getOptionA());
@@ -56,27 +56,29 @@ public class TestServiceImpl implements TestService {
             question.setCorrectOption(dto.getCorrectOption());
 
             return questionRepository.save(question).getDto();
-
         }
 
         throw new EntityNotFoundException("Test Not Found");
     }
-    public List<TestDTO> getAllTests(){
-        return testRepository.findAll().stream().peek(
-                        test-> test.setTime(test.getQuestions().size()* test.getTime())).collect(Collectors.toList())
-                .stream().map(Test::getDto).collect(Collectors.toList());
+
+    public List<TestDTO> getAllTests() {
+        return testRepository.findAll().stream()
+                .peek(test -> test.setTime(test.getQuestions().size() * test.getTime()))
+                .map(Test::getDto)
+                .collect(Collectors.toList());
     }
 
-
-    public TestDetailsDTO getAllQuestionsByTest(Long id){
-        Optional<Test> optionalTest=testRepository.findById(id);
-        TestDetailsDTO testDetailsDTO=new TestDetailsDTO();
-        if(optionalTest.isPresent()){
+    public TestDetailsDTO getAllQuestionsByTest(Long id) {
+        Optional<Test> optionalTest = testRepository.findById(id);
+        TestDetailsDTO testDetailsDTO = new TestDetailsDTO();
+        if (optionalTest.isPresent()) {
             TestDTO testDTO = optionalTest.get().getDto();
-            testDTO.setTime(optionalTest.get().getTime()*optionalTest.get().getQuestions().size());
+            testDTO.setTime(optionalTest.get().getTime() * optionalTest.get().getQuestions().size());
 
             testDetailsDTO.setTestDTO(testDTO);
-            testDetailsDTO.setQuestions(optionalTest.get().getQuestions().stream().map(Question::getDto).toList());
+            testDetailsDTO.setQuestions(optionalTest.get().getQuestions().stream()
+                    .map(Question::getDto)
+                    .toList());
             return testDetailsDTO;
         }
         return testDetailsDTO;
@@ -89,7 +91,6 @@ public class TestServiceImpl implements TestService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        // ✅ Prevent duplicate submission
         if (testResultRepository.existsByUserIdAndTestId(user.getId(), test.getId())) {
             throw new IllegalStateException("You have already taken this test.");
         }
@@ -116,13 +117,16 @@ public class TestServiceImpl implements TestService {
         return testResultRepository.save(testResult).getDto();
     }
 
-
-    public List<TestResultDTO> getAllTestResults(){
-        return testResultRepository.findAll().stream().map(TestResult::getDto).collect(Collectors.toList());
+    public List<TestResultDTO> getAllTestResults() {
+        return testResultRepository.findAll().stream()
+                .map(TestResult::getDto)
+                .collect(Collectors.toList());
     }
 
-    public List<TestResultDTO> getAllTestResultsOfUser(Long userId){
-        return testResultRepository.findAllByUserId(userId).stream().map(TestResult::getDto).collect(Collectors.toList());
+    public List<TestResultDTO> getAllTestResultsOfUser(Long userId) {
+        return testResultRepository.findAllByUserId(userId).stream()
+                .map(TestResult::getDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -134,5 +138,36 @@ public class TestServiceImpl implements TestService {
                 .collect(Collectors.toList());
     }
 
+    // ✅ New Method - Get Tests Belonging to User's Department
+    @Override
+    public List<TestDTO> getTestsByDepartmentOfUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        if (user.getDepartment() == null) {
+            throw new IllegalStateException("User does not belong to any department.");
+        }
+
+        Long departmentId = user.getDepartment().getId();
+
+        List<Test> tests = testRepository.findAll().stream()
+                .filter(test -> test.getDepartment() != null &&
+                        test.getDepartment().getId().equals(departmentId))
+                .collect(Collectors.toList());
+
+        return tests.stream().map(Test::getDto).collect(Collectors.toList());
+    }
+
+    public List<TestDTO> getTestsForUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        Long departmentId = user.getDepartment().getId();
+
+        return testRepository.findAll().stream()
+                .filter(test -> test.getDepartment().getId().equals(departmentId))
+                .map(Test::getDto)
+                .collect(Collectors.toList());
+    }
 
 }

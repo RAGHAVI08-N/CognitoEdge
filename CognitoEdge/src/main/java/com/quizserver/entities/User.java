@@ -1,11 +1,7 @@
 package com.quizserver.entities;
 
-
 import com.quizserver.enums.UserRole;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -18,14 +14,13 @@ public class User {
 
     private String email;
 
-
     private String password;
-
 
     private String name;
 
     private UserRole role;
 
-
-
+    @ManyToOne(fetch = FetchType.EAGER)  // ✅ Force eager loading
+    @JoinColumn(name = "department_id")
+    private Department department;
 }

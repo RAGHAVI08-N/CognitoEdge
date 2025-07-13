@@ -23,8 +23,8 @@ public class TestResult {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public TestResultDTO getDto(){
-        TestResultDTO dto= new TestResultDTO();
+    public TestResultDTO getDto() {
+        TestResultDTO dto = new TestResultDTO();
         dto.setId(id);
         dto.setTotalQuestions(totalQuestions);
         dto.setCorrectAnswers(correctAnswers);
@@ -32,7 +32,14 @@ public class TestResult {
         dto.setTestName(test.getTitle());
         dto.setUserName(user.getName());
 
+        String deptName = (test.getDepartment() != null)
+                ? test.getDepartment().getName()
+                : "N/A";
+        System.out.println("DEBUG: TestResult #" + id + " deptName=" + deptName);
+        dto.setDepartmentName(deptName);
+
         return dto;
     }
+
 }
 
