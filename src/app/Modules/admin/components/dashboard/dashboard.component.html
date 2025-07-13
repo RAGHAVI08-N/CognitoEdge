@@ -6,6 +6,9 @@
           <div class="card-header">
             <div class="time">⏱ {{ getFormattedTime(test.time) }}</div>
             <h3 class="title">{{ test.title }}</h3>
+            <div class="department">
+              <strong>Department:</strong> {{ test.departmentName || 'N/A' }}
+            </div>
           </div>
 
           <div class="desc">{{ test.description }}</div>

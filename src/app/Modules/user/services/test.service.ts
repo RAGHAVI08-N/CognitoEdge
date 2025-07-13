@@ -32,4 +32,9 @@ export class TestService {
     return this.http.get<number[]>(BASIC_URL + `api/test/attempted-tests/${userId}`);
     }
 
+    getTestsForEmployee(userId: number): Observable<any> {
+      return this.http.get(BASIC_URL + `api/test/department-tests/${userId}`);
+    }
+
+
 }

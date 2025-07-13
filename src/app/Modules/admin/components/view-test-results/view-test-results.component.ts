@@ -23,6 +23,7 @@ export class ViewTestResultsComponent {
     this.testService.getTestResults().subscribe(res=>{
       this.resultsData = res;
       console.log(this.resultsData);
+      console.log('Results data:', this.resultsData);
     })
   }
 

@@ -30,7 +30,7 @@ body {
   border-top: 6px solid #008080;
   transition: all 0.3s ease;
   position: relative;
-  height: 600px;
+  height: 700px;
   margin-top: 2px;
 }
 
@@ -94,3 +94,24 @@ textarea[nz-input]:focus {
 .login-form-button:active {
   transform: scale(0.97);
 }
+
+// Styling for Department Dropdown (nz-select)
+::ng-deep nz-select {
+  width: 100%;
+
+  .ant-select-selector {
+    border: 2px solid #ccc !important;
+    border-radius: 12px !important;
+    padding: 10px 14px !important;
+    font-size: 15px !important;
+    background-color: #fdfdfd !important;
+    transition: all 0.3s ease;
+  }
+
+  &.ant-select-focused .ant-select-selector {
+    border-color: #008080 !important;
+    box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.15) !important;
+    background-color: #ffffff !important;
+  }
+}
+

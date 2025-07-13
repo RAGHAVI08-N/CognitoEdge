@@ -31,4 +31,9 @@ export class AdminService {
     return this.http.get(BASIC_URL + `api/test/test-result`);
   }
 
+  getDepartments(): Observable<any> {
+  return this.http.get('http://localhost:8080/api/departments');
+}
+
+
 }

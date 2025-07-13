@@ -22,16 +22,21 @@ export class DashboardComponent {
   ) {}
 
   ngOnInit() {
-    this.getAllTests();
+    this.fetchEmployeeTests();        // 👈 replaced
     this.fetchAttemptedTests();
   }
 
-  getAllTests() {
-    this.testService.getAllTest().subscribe(res => {
-      this.tests = res;
-    }, error => {
-      this.notification.error('ERROR', `Something Went Wrong. Try Again`, { nzDuration: 5000 });
-    });
+  // ✅ NEW METHOD to fetch tests based on user's department
+  fetchEmployeeTests() {
+    const userId = Number(UserStorageService.getUserId());
+    this.testService.getTestsForEmployee(userId).subscribe(
+      (res) => {
+        this.tests = res;
+      },
+      (error) => {
+        this.notification.error('ERROR', 'Failed to load tests', { nzDuration: 5000 });
+      }
+    );
   }
 
   fetchAttemptedTests() {

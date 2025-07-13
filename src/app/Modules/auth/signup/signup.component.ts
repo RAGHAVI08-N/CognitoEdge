@@ -14,6 +14,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class SignupComponent implements OnInit {
   validateForm!: FormGroup;
+  departmentOptions: { label: string, value: string }[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -26,25 +27,40 @@ export class SignupComponent implements OnInit {
     this.validateForm = this.fb.group({
       name: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]]
+      password: [null, [Validators.required]],
+      departmentName: [null, [Validators.required]]
+    });
+
+    this.fetchDepartments();
+  }
+
+  fetchDepartments() {
+    this.authService.getDepartments().subscribe((departments: any[]) => {
+      this.departmentOptions = departments.map(dep => ({
+        label: dep.name,
+        value: dep.name
+      }));
     });
   }
 
   submitForm() {
-  this.authService.register(this.validateForm.value).subscribe(
-    (res: any) => {
-      alert('User registered successfully');
-      this.validateForm.reset(); // 🔁 Reset the form
-      this.router.navigateByUrl('/login'); // Or comment if you don’t want auto navigate
-    },
-    (error: any) => {
-      if (error.status === 406) {
-        alert('User already exists'); //  Email already used
-      } else {
-        alert('Signup failed. Please try again later.');
-      }
+    if (this.validateForm.valid) {
+      this.authService.register(this.validateForm.value).subscribe(
+        (res: any) => {
+          alert('User registered successfully');
+          this.validateForm.reset();
+          this.router.navigateByUrl('/login');
+        },
+        (error: any) => {
+          if (error.status === 406) {
+            alert('User already exists');
+          } else {
+            alert('Signup failed. Please try again later.');
+          }
+        }
+      );
+    } else {
+      this.message.error('Please fill in all fields correctly.');
     }
-  );
-}
-
+  }
 }

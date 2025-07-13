@@ -1,4 +1,4 @@
-/*// Color Variables
+// Color Variables
 $teal: #3aa79e;
 $charcoal: #2e2e2e;
 $beige: #f4f1ec;
@@ -149,4 +149,32 @@ input[nz-input]:focus {
   border-radius: 50%;
   z-index: -1;
 }
-*/
+// Match nz-select style with input
+::ng-deep .ant-select-selector {
+  border: 2px solid rgba(46, 46, 46, 0.4) !important;
+  border-radius: 12px !important;
+  padding: 4px 14px !important;
+  font-size: 15px;
+  background-color: #fdfcfb;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  height: 40px !important;
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .ant-select-selector:focus,
+::ng-deep .ant-select-focused .ant-select-selector {
+  border-color: #3aa79e !important;
+  box-shadow: 0 0 5px rgba(58, 167, 158, 0.5) !important;
+  outline: none !important;
+}
+
+// Optional: style dropdown arrow to be more consistent
+::ng-deep .ant-select-arrow {
+  color: #2e2e2e;
+}
+
+// Optional: make dropdown popup cleaner
+::ng-deep .ant-select-dropdown {
+  border-radius: 12px;
+}
