@@ -7,6 +7,7 @@ import lombok.Data;
 public class QuestionDTO {
 
     private Long id;
+    private Long testId;
 
     private String questionText;
 
