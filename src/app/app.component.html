@@ -11,10 +11,23 @@
         <a nz-button nzType="link" routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
         <a nz-button nzType="link" routerLink="/admin/create-test" routerLinkActive="active">Create Test</a>
         <a nz-button nzType="link" routerLink="/admin/view-test-results" routerLinkActive="active">View Results</a>
-        <a nz-button nzType="link" routerLink="/register" routerLinkActive="active">Sign-up</a>
+        <a nz-button nzType="link" routerLink="/add-employee" routerLinkActive="active">+ Add Employee</a>
+        <a nz-button nzType="link" (click)="toggleDepartmentInput()">+ Add Department</a>
         <a nz-button nzType="link" (click)="logout()">Logout</a>
       </div>
     </nz-header>
+
+    <!-- ✅ Inline department input area -->
+    <div *ngIf="showDeptInput" class="add-department-inline">
+      <form [formGroup]="departmentForm" (ngSubmit)="createDepartment()" class="inline-form">
+        <input
+          nz-input
+          formControlName="name"
+          placeholder="Enter department name"
+        />
+        <button nz-button nzType="primary" [disabled]="departmentForm.invalid">Add</button>
+      </form>
+    </div>
   </div>
 
   <!-- 👤 User header -->

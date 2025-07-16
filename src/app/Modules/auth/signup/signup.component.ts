@@ -49,7 +49,7 @@ export class SignupComponent implements OnInit {
         (res: any) => {
           alert('User registered successfully');
           this.validateForm.reset();
-          this.router.navigateByUrl('/login');
+          this.router.navigateByUrl('/admin/dashboard');
         },
         (error: any) => {
           if (error.status === 406) {
